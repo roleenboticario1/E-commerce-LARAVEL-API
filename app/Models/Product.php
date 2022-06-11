@@ -26,9 +26,10 @@ class Product extends Model
       'status',
     ];
     
-    //You need this for JS or JS Framework
+    //You need this for JS or JS Framework //for js relationship
     protected $with = ['categories'];
-
+   
+    //for laravel or blade relationship
     public function categories()
     {
        return $this->belongsTo(Category::class, 'category_id', 'id');

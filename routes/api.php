@@ -5,12 +5,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ProductController;
-use App\Http\Controllers\API\FrontEndController;;
+use App\Http\Controllers\API\FrontEndController;
+use App\Http\Controllers\API\CartController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('getCategory', [FrontEndController::class, 'category']);
+Route::get('/getCategory', [FrontEndController::class, 'category']);
+Route::get('/getProducts/{slug}', [FrontEndController::class, 'product']);
+Route::get('/get-product/{category_slug}/{product_slug}',  [FrontEndController::class, 'viewproduct']);
+Route::post('add-to-cart', [CartController::class, 'addToCart']);
+Route::get('cart', [CartController::class, 'cart']);
+
 
 Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function(){
 
@@ -24,7 +30,7 @@ Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function(){
    Route::get('/edit-category/{id}', [CategoryController::class, 'edit']);
    Route::put('/update-category/{id}', [CategoryController::class, 'update']);
    Route::delete('/delete-category/{id}',  [CategoryController::class, 'destroy']);
-   Route::get('all-category',  [CategoryController::class, 'allCategery']);
+   Route::get('/all-category',  [CategoryController::class, 'allCategery']);
 
    //Products
    Route::post('/store-product', [ProductController::class, 'store']);
