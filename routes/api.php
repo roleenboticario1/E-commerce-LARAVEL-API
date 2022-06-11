@@ -15,8 +15,9 @@ Route::get('/getCategory', [FrontEndController::class, 'category']);
 Route::get('/getProducts/{slug}', [FrontEndController::class, 'product']);
 Route::get('/get-product/{category_slug}/{product_slug}',  [FrontEndController::class, 'viewproduct']);
 Route::post('add-to-cart', [CartController::class, 'addToCart']);
-Route::get('cart', [CartController::class, 'cart']);
-
+Route::get('/cart', [CartController::class, 'cart']);
+Route::put('/cart/update-quantity/{cart_id}/{scope}', [CartController::class, 'updateQuantity']);
+Route::delete('/cart/delete-cart-item/{cart_id}', [CartController::class, 'deleteItem']);
 
 Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function(){
 

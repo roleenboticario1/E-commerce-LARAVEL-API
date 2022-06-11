@@ -75,4 +75,71 @@ class CartController extends Controller
            ]);  
        }
     }
+
+    public function updateQuantity($cart_id, $scope)
+    {
+
+       if(auth('sanctum')->check())
+       { 
+           $user_id = auth('sanctum')->user()->id;
+           $cartItems = Cart::where('id', $cart_id)->where('user_id', $user_id)->first();
+
+           if($scope == "inc")
+           {
+             $cartItems->product_qty += 1;
+           }
+           else if($scope == "dec")
+           {
+             $cartItems->product_qty -= 1;
+           }
+
+           $cartItems->update();
+
+           return response()->json([
+               'status'=> 200,
+                'message' => 'Cart Quantity Successfully Updated'
+           ]);  
+       }
+       else
+       {
+           return response()->json([
+               'status'=> 401,
+               'message' => 'Please, Log in to update Quantity'
+           ]);  
+       } 
+    }
+
+    public function deleteItem($id)
+    {
+         if(auth('sanctum')->check())
+       { 
+           $user_id = auth('sanctum')->user()->id;
+           $cartItems = Cart::where('id', $id)->where('user_id', $user_id)->first();
+
+           if($cartItems)
+           {
+              $cartItems->delete();
+
+              return response()->json([
+                  'status'=> 200,
+                  'message' => 'Cart Item Removed Successfully'
+              ]); 
+           }
+           else
+           {
+              return response()->json([
+                  'status'=> 404,
+                  'message' => 'Cart Item Not Found'
+              ]); 
+           }
+       }
+       else
+       {
+           return response()->json([
+               'status'=> 404,
+               'message' => 'Please, Log in to update Quantity'
+           ]);  
+       }   
+    }
+
 }
